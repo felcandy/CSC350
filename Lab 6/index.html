@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!--
+============================================================================
+ Name        : index.html
+ Author      : Danielle Van Allen
+ Date        : 11/30/2021
+ Description : Week 6 Lab 6 Boiler Monitor
+               Implementing a Password-Based Entry Page - 11/30/21
+               Implementing a basic information page
+               Implementing a page to change basic information
+               Implementing a page to enter data- temp and pressure
+============================================================================
+-->
+
+
+<html lang=en manifest="manifest.appcache">
+    
+    <head>
+        <title>Boiler Monitor</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+
+
+        <link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
+        <link rel="stylesheet" href="css/bootstrap.css" />
+        <script src="scripts/jquery-1.9.1.min.js"></script>
+        <script src="scripts/chromeFileProtocolFix.js"></script>
+        <script src="scripts/jquery.mobile-1.3.1.min.js"></script>
+
+    </head>
+
+    <body onload="displayInfo()">
+
+<!--Password Page for Access to App-->
+        <div data-role="page" id="pageHome">
+            <div data-role="header">
+                <a href="#pageMenu" data-role="button" data-icon="bars" data-iconpos="left" data-inline="true">Menu</a>
+                <h1>Access Boiler</h1>
+            </div>
+
+            <div data-role="content">
+                Enter Password:
+                <input type="password" id="passcode"></input>
+
+                <div data-role="controlgroup" id="numKeyPad">
+                  <a data-role="button" id="btnEnter" type="submit">Enter</a>
+                </div>
+
+                <div data-role="controlgroup" data-type="horizontal">
+                  <a data-role="button" onclick="addValueToPassword(7)">7</a>
+                  <a data-role="button" onclick="addValueToPassword(8)">8</a>
+                  <a data-role="button" onclick="addValueToPassword(9)">9</a>
+                </div>
+                <div data-role="controlgroup" data-type="horizontal">
+                  <a data-role="button" onclick="addValueToPassword(4)">4</a>
+                  <a data-role="button" onclick="addValueToPassword(5)">5</a>
+                  <a data-role="button" onclick="addValueToPassword(6)">6</a>
+                </div>
+                <div data-role="controlgroup" data-type="horizontal">
+                  <a data-role="button" onclick="addValueToPassword(1)">1</a>
+                  <a data-role="button" onclick="addValueToPassword(2)">2</a>
+                  <a data-role="button" onclick="addValueToPassword(3)">3</a>
+                </div>
+                <div data-role="controlgroup" data-type="horizontal">
+                  <a data-role="button" onclick="addValueToPassword(0)">0</a>
+                  <a data-role="button" onclick="addValueToPassword('bksp')" data-icon="delete">del</a>
+                </div>
+            </div>
+        </div>
+
+
+<!--Main Menu Page with links to main pages-->
+        <div data-role="page" id="pageMenu">
+            <div data-role="header">
+                <a href="#pageMenu" data-role="button" data-icon="bars" data-iconpos="left" data-inline="true">Menu</a>
+                <h1>Main Menu</h1>
+            </div>
+
+            <div data-role="controlgroup">
+                <a href="#pageHome" data-role="button">Lock Screen</a>
+                <a href="#pageOne" data-role="button">Boiler and App Info</a>
+                <a href="#pageTwo" data-role="button">Boiler Menu</a>
+            </div>
+        </div>
+
+
+<!--Basic Information about boiler-->
+        <div data-role="page" id="pageOne">
+            <div data-role="header">
+                <a href="#pageMenu" data-role="button" data-icon="bars" data-iconpos="left" data-inline="true">Menu</a>
+                <h1>App Info</h1>
+            </div>
+            <div data-role="content">
+                <p>Basic Information about the Boiler</p>
+                <ul>
+                    <li>Boiler ID</li>
+                    <li>Date of Purchase</li>
+                    <li>Max Value of Pressure</li>
+                    <li>Max Value of Temperature</li>
+                </ul>
+                <p>App Information</p>
+                <ul>
+                    <li>App created by Danielle Van Allen</li>
+                    <li>CSC 350 - Mobile App</li>
+                    <li>Recent update: November 30, 2021</li>
+                    <li>Current date: <script> document.write(new Date().toLocaleDateString()); </script> </li>
+                    <a href="#changePW" data-role="button">Link to Change the Password</a>
+                </ul>
+
+            </div>
+        </div>
+
+<!--change the basic information about the boiler-->
+        <div data-role="page" id="changePW">
+            <div data-role="header">
+                <a href="#pageMenu" data-role="button" data-icon="bars"
+                data-iconpos="left" data-inline="true">Menu</a>
+                <h1>Change Password</h1>
+            </div>
+            <div data-role="content">
+                <form id="frmUserForm" action="">
+                    <div data-role="fieldcontain">
+                        <label for="changePassword">Edit Password: </label>
+                        <input type="password" placeholder="New Password" name="changePassword" 1data-mini="false" id="changePassword" value="" required>
+                    </div>
+                  <input type="submit" id="btnUserUpdate" data-icon="check" data-iconpos="left" value="Update" data-inline="true">
+
+                </form>
+                  <a href="#pageMenu" data-role="button">Back</a>
+            </div>
+        </div> 
+
+
+<!--Menu page with four choices-->
+        <div data-role="page" id="pageTwo">
+            <div data-role="header">
+                <a href="#pageMenu" data-role="button" data-icon="bars" data-iconpos="left" data-inline="true">Menu</a>
+                <h1>Page two</h1>
+            </div>
+            <div data-role="content">
+                <p>Menu page with four choices</p>
+                <a href="#info" data-role="button">Change Basic Info</a>
+                <a href="#data" data-role="button">Enter data</a>
+                <a href="#graph" data-role="button">Graph data</a>
+                <a href="#recommend" data-role="button">Recommendations</a>
+            </div>
+        </div>
+
+<!--change the basic information about the boiler-->
+<!-- UPDATED -->
+        <div data-role="page" id="info">
+            <div data-role="header">
+                <a href="#pageMenu" data-role="button" data-icon="bars" data-iconpos="left" data-inline="true">Menu</a>
+                <h1>Basic Information</h1>
+            </div>
+            <div data-role="content">
+                <p>Change Boiler Information</p>
+                <form id="frmBoiler" action="">
+                    <div data-role="fieldcontain">
+                        <!--Boiler Identification-->
+                        <label for="ident">Boiler ID</label>
+                        <input type="text" placeholder="Boiler ID" name= "ident" data-mini="false" id="ident" value="" required>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <!--Date of Purchase-->
+                        <label for="dop">Purchase Date</label>
+                        <input type="date" placeholder="MMDDYYYY" name= "dop" data-mini="false" id="dop" value="" required>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <!--Maximum Pressure-->
+                        <label for="maxP">Max Pressure</label>
+                        <input type="text" placeholder="Max Pressure" name= "maxP" data-mini="false" id="maxP" value="" required>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <!--Maximum Temperature-->
+                        <label for="maxT">Max Temp</label>
+                        <input type="text" placeholder="Max Temperature" name= "maxT" data-mini="false" id="maxT" value="" required>
+                    </div>
+ 
+                       <input type = "submit" id="btnBoilerUpdate" data-icon="check" data-iconpos="left" value="Update" data-inline="true">
+                    </form>
+
+
+                        <p>
+                            Saved boiler ID is <strong id="savedID"></strong>.
+                            <br>
+                            Saved date of purchase is <strong id="savedDate"></strong>.
+                            <br>
+                            Saved max pressure is <strong id="savedMaxP"></strong> and max temp is <strong id="savedMaxT"></strong>.
+                        </p>
+                    
+
+                <a href="#pageTwo" data-role="button">Back</a>
+            </div>
+        </div>
+        
+<!--change the basic information about the boiler-->
+
+        <div data-role="page" id="data">
+            <div data-role="header">
+                <a href="#pageMenu" data-role="button" data-icon="bars" data-iconpos="left" data-inline="true">Menu</a>
+                <h1>Temperature and Pressure Data</h1>
+            </div>
+            <div data-role="content">
+                <p>Enter Data about Temp and Pressure</p>
+                <a href="#pageTwo" data-role="button">Back</a>
+            </div>
+        </div> 
+
+<!--change the basic information about the boiler-->
+        <div data-role="page" id="graph">
+            <div data-role="header">
+                <a href="#pageMenu" data-role="button" data-icon="bars"
+                data-iconpos="left" data-inline="true">Menu</a>
+                <h1>Graph of Boiler Data</h1>
+            </div>
+            <div data-role="content">
+                <p>A graph of the data</p>
+                <a href="#pageTwo" data-role="button">Back</a>
+            </div>
+        </div> 
+
+<!--change the basic information about the boiler-->
+        <div data-role="page" id="recommend">
+            <div data-role="header">
+                <a href="#pageMenu" data-role="button" data-icon="bars"
+                data-iconpos="left" data-inline="true">Menu</a>
+                <h1>Recommendations</h1>
+            </div>
+            <div data-role="content">
+                <p>Recommendations based on the values of temperature and pressure.</p>
+                <a href="#pageTwo" data-role="button">Back</a>
+            </div>
+        </div> 
+
+<!------JavaScript/Jquery-------->
+        <script src="scripts/Navigation.js"></script>
+        <script src="scripts/BoilerInfo.js"></script>
+    </body>
+
+</html>
